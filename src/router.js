@@ -13,12 +13,12 @@ export default new Router({
       title: '登录-53加盟网',
       component: () => import('@/pages/login.vue')
     },
-    {
-      path: '/set-room',
-      name: 'set-room',
-      title: '注册-53加盟网',
-      component: () => import('@/pages/set-room.vue')
-    },
+    // {
+    //   path: '/set-room',
+    //   name: 'set-room',
+    //   title: '注册-53加盟网',
+    //   component: () => import('@/pages/set-room.vue')
+    // },
     {
       path: '*',
       redirect: '/login'
