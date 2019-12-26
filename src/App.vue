@@ -31,6 +31,7 @@ export default {
 
 <style>
 @import '//at.alicdn.com/t/font_1565819_9g72bb0oget.css';
+@import "./assets/css/style.scss";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

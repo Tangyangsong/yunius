@@ -13,7 +13,6 @@
 				<div class="logo-lable verify-code">
 					<div class="logo-name">验证码</div>
 					<input class="logo-input" type="number" v-model="codetxt" />
-
 					<img @click="getImageUrl()" class="code-image" :src="imageUrl" />
 				</div>
 				<div class="logo-tishi">
@@ -230,9 +229,10 @@
 	width: 100%;
 	border-radius: 4px;
 	color: #fbfafd;
+	background-color: transparent;
 }
 .logo-lable.verify-code{
-	width: calc(100% - 100px);
+	width: calc(100% - 125px);
 }
 .code-image{
 	position: absolute;
