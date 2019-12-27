@@ -47,9 +47,27 @@ $.ajaxSetup({
 export default {
     post (url, data = {}, callback, errCallback) {
         $.ajax({
-            url: ajax_url(url),
+            url: ajax_url(url),//ajax_url(url)
             data: data,//ajax_data(data)
             type: "post",
+            dataType: "jsonp",
+            success (result, status, xhr){
+                if (ajax_success(result, status, xhr) === true) {
+                    typeof(callback) == "function" && callback(result, status, xhr);
+                }
+            },
+            error (xhr, status, error) {
+                if (ajax_error(xhr, status, error) === true) {
+                    typeof(errCallback) == "function" && errCallback(xhr, status, error);
+                }
+            }
+        });
+    },
+    get (url, data = {}, callback, errCallback) {
+        $.ajax({
+            url: ajax_url(url),//ajax_url(url)
+            data: data,//ajax_data(data)
+            type: "get",
             dataType: "jsonp",
             success (result, status, xhr){
                 if (ajax_success(result, status, xhr) === true) {

@@ -18,8 +18,20 @@ export default {
         pageHead
     },
     computed: {
-        ...mapState(['backImage','roomCode','userInfo'])
+        ...mapState(['userInfo','keyboardSound'])
     },
+    created(){
+        
+    },
+    methods:{
+        //开关键盘声音
+        switchChange(e) {
+            this.$store.state.keyboardSound = e.value;
+        },
+        goPage(url) {
+            this.$router.push({path:url})
+        }
+    }
     
 }
 </script>

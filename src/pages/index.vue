@@ -86,7 +86,7 @@ export default {
                     //     _this.gettimer = setInterval(_this.gettime, 6000);//开启定时器
                     // }
                 }else {
-                    window.console.log(res)
+                    //window.console.log(res)
                     _this.logouts();
                 }
             }, function(err){
