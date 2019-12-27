@@ -11,8 +11,16 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
-  }
+    font-size: 0.4rem;
+}
 input{
   border: 0;
   outline:none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type="number"]{
+    -moz-appearance: textfield;
 }

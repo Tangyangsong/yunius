@@ -1,7 +1,11 @@
 <template>
 	<div class="loginPage" :style="[{backgroundImage: 'url('+backImage+')'},{backgroundSize:'100% 100%'}]">
 		<page-head title="qwe1" @click="navback()"></page-head>
-		<div class="logo-form">
+        <div class="logo-form">
+            <div class="logo-lable">
+				<div class="logo-name">游戏昵称</div>
+				<input class="logo-input" v-model="nicknametxt" type="text" />
+			</div>
 			<div class="logo-lable">
 				<div class="logo-name">账 号</div>
 				<input class="logo-input" v-model="loginnametxt" type="text" />
@@ -10,27 +14,28 @@
 				<div class="logo-name">密 码</div>
 				<input class="logo-input" v-model="loginpwdtxt" type="password" />
 			</div>
+            <div class="logo-lable">
+				<div class="logo-name">确认密码</div>
+				<input class="logo-input" v-model="loginpwdtxts" type="password" />
+			</div>
 			<div class="logo-lable verify-code">
 				<div class="logo-name">验证码</div>
 				<input class="logo-input" type="number" v-model="codetxt" />
 				<img @click="getImageUrl()" class="code-image" :src="imageUrl" />
 			</div>
-			<div class="logo-tishi">
-				<mu-switch class="isswitch" v-model="automaticLogon"></mu-switch>
-				记住帐户和密码，下次快速登陆.
+			<div class="logo-button">
+				<mu-button class="butn" color="primary" @click="registerSubmit()">立即注册</mu-button>
 			</div>
 			<div class="logo-button">
-				<mu-button class="butn" color="primary" @click="loginSubmit()"> 账号密码登录 </mu-button>
-			</div>
-			<div class="logo-button">
-				<mu-button class="butn" color="warning" @click="goregister()">注册新的账号</mu-button>
+				<mu-button class="butn" color="warning" @click="navback()">返回登录</mu-button>
 			</div>
 		</div>
+        <modal title="" :content='modalContent' :showCancle='false' @on-confirm='confirm' v-show='showModal'>
+        </modal>
 	</div>
 </template>
-
 <script>
-	import { mapState, mapMutations } from 'vuex';
+	import { mapState } from 'vuex';
 	import pageHead from '@/components/page-head.vue'
 	import * as serve from "@/serve/service"
 	export default {
@@ -43,41 +48,39 @@
 		data() {
 			return {
 				title: "qwe1",
-				imageUrl: "",
+                imageUrl: "",
+                nicknametxt:'',
 				loginnametxt: "",
+                loginpwdtxt: "",
+                loginpwdtxts: "",
 				codetxt: "",
-				loginpwdtxt: "",
-				automaticLogon: true,
-				loading: false
+                modalContent: '注册成功',
+                showModal: false,
 			}
 		},
 		created() {
-			this.getloginInfo();
+			this.getImageUrl();
 		},
 		methods: {
 			navback(){
-				this.$router.push({path:'/set-room'})
-			},
-			//获取历史账号密码
-			getloginInfo(){
-				let _this = this;
-				if(window.localStorage.getItem('loginInfo')){
-					let loginInfo = JSON.parse(window.localStorage.getItem('loginInfo'));
-					_this.loginnametxt = loginInfo.loginnametxt;
-					_this.loginpwdtxt = loginInfo.loginpwdtxt;
-				}
-				this.getImageUrl();//获取验证码
-			},
+                this.$router.go(-1)
+            },
+            //确认注册
+            confirm(){
+                this.showModal = false;
+                this.$router.push({path:'/login'})
+            },
 			//获取验证码
 			getImageUrl(){
 				let date = new Date().getTime();
 				this.imageUrl = serve.HTTP_HOST + serve.AJAX_URL + '/getVerificationCode?t=' + date;
 			},
-			switchChange(e) {
-				this.automaticLogon = e.detail.value;
-			},
-			//登录
-			loginSubmit(){
+			//注册
+			registerSubmit(){
+                if(this.nicknametxt == ''){
+					this.$toastMessage({message: '请输入游戏昵称'})
+					return;
+				}
 				if(this.loginnametxt == ''){
 					this.$toastMessage({message: '请输入账号'})
 					return;
@@ -85,32 +88,26 @@
 				if(this.loginpwdtxt == ''){
 					this.$toastMessage({message: '请输入密码'})
 					return;
+                }
+                if(this.loginpwdtxt !== this.loginpwdtxts){
+					this.$toastMessage({message: '两次密码不一致'})
+					return;
 				}
 				if(this.codetxt == ''){
 					this.$toastMessage({message: '请输入验证码'})
 					return;
-				}
+                }
 				let params = {
+                    nicknametxt:this.nicknametxt,
 					loginnametxt:this.loginnametxt,
 					loginpwdtxt:this.loginpwdtxt,
 					codetxt:this.codetxt,
 					roomcodetxt:this.roomCode//'vd041545' this.roomCode
 				}
 				let _this = this;
-				_this.$ajax.post("/loginweb", params, function(res){
+				_this.$ajax.post("/register", params, function(res){
 					if(res.state){
-						_this.getUserinfo();//获取个人信息
-						let loginInfo = {
-							loginnametxt:_this.loginnametxt,
-							loginpwdtxt:_this.loginpwdtxt,
-						}
-						if(_this.automaticLogon){
-							//记住账号密码
-							window.localStorage.setItem('loginInfo', JSON.stringify(loginInfo));
-							_this.$router.push({path:'/index'})
-						}else{
-							window.localStorage.removeItem("loginInfo");
-						}
+                        _this.showModal = true;//注册成功
 					}else {
 						_this.$toastMessage({message:res.message})
 						_this.getImageUrl()
@@ -118,29 +115,10 @@
 				}, function(err){
 					window.console.log('error'+err);
 				});
-			},
-			//获取个人信息
-			getUserinfo () {
-				let _this = this;
-				_this.$ajax.post("/getuserinfo", {}, function(res){
-					// window.console.log(res);
-					if(res.state){
-						let userInfo = res.ob;
-						_this.setUserInfo(userInfo);//改变登录状态
-					}
-				}, function(err){
-					window.console.log('error'+err);
-				});
-			},
-			//跳转注册
-			goregister() {
-				this.$router.push({path:'/register'})
-			},
-			...mapMutations(['setUserInfo'])
+			}
 		}
 	}
 </script>
-
 <style scoped>
 .loginPage {
   height: 100vh;
@@ -168,12 +146,12 @@
   color: #ffffff;
   display: flex;
   align-items: center;
-  font-size: 0.3rem;
+  font-size: 0.4rem;
 }
 .logo-tishi .isswitch {
   margin-right: 10px;
 }
-.logo-button { 
+.logo-button {
   margin-bottom: .25rem;
 }
 .logo-button .butn {

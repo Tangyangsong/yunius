@@ -17,7 +17,6 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave:false,
   runtimeCompiler: true,
-
   // devServer: {
   //   proxy: "https://www.53.com.cn"
   // }

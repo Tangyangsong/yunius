@@ -1,7 +1,7 @@
 // import fetch from '../config/fetch'
 // import upload from '../config/upload'
 
-const USER_INFO_KEY = 'user_key' // 用户信息
+const USER_INFO_KEY = 'userInfo' // 用户信息
 export const HTTP_HOST = "http://39.99.243.197:801";
 
 export const AJAX_URL = "/cppc3/web/api";

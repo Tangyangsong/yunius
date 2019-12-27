@@ -1,23 +1,19 @@
 <template>
   <div id="app">
-    <router-view />
+    <!-- mode="in-out" -->
+    <transition name="fade">
+      <router-view />
+    </transition>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'app',
-  components: {
-    // HelloWorld
-  },
   data(){
     return{
-      imageUrl:'',
-      loginnametxt:'',
-      loginpwdtxt:'',
-      codetxt:''
+
     }
   },
   created(){
@@ -30,13 +26,25 @@ export default {
 </script>
 
 <style>
-@import '//at.alicdn.com/t/font_1565819_9g72bb0oget.css';
+@import '//at.alicdn.com/t/font_1565819_jggtr3crwm.css';
 @import "./assets/css/style.scss";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+}
+.fade-enter {
+  opacity:0;
+}
+.fade-leave{
+  opacity:1;
+}
+.fade-enter-active{
+  transition:opacity .5s;
+}
+.fade-leave-active{
+  opacity:0;
+  transition:opacity .5s;
 }
 </style>

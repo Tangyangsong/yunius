@@ -20,9 +20,12 @@ var ajax_data = function(data = {}){
     return JSON.stringify(data);
 }
 // 公共请求成功（需验证业务逻辑）
+// eslint-disable-next-line no-unused-vars
 var ajax_success = function(result, status, xhr){
     // 验证业务逻辑部分（如未登录跳转登录等~）
-    window.console.log(status +'----'+ result+ '----' + xhr);
+    // window.console.log(status);
+    // window.console.log(result);
+    // window.console.log(xhr);
     return true;
 }
 // 公共请求失败
