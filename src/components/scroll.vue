@@ -93,7 +93,7 @@ export default {
       }
     },
     touchEnd(e) {
-        window.console.log(e)
+      //window.console.log(e)
       if (!this.enableRefresh) return;
       this.touching = false;
       if (this.state === 2) {
@@ -131,7 +131,8 @@ export default {
     },
 
     onScroll(e) {
-        window.console.log(e)
+        // window.console.log(!this.enableInfinite)
+        // window.console.log(this.infiniteLoading)
       if (!this.enableInfinite || this.infiniteLoading) {
         return;
       }
@@ -151,13 +152,13 @@ export default {
 <style scoped>
 .yo-scroll {
   position: absolute;
-  top: 2.5rem;
+  top: 1rem;
   right: 0;
   bottom: 0;
   left: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  background-color: #ddd;
+  background-color: #f3f4f5;
 }
 .yo-scroll .inner {
   position: absolute;

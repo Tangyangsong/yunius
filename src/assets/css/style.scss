@@ -24,3 +24,9 @@ input::-webkit-inner-spin-button {
 input[type="number"]{
     -moz-appearance: textfield;
 }
+button:active{
+    opacity: .8;
+}
+.hiddenInput{
+    display: none;
+}

@@ -1,13 +1,13 @@
 <template>
 	<div class="roomPage">
-		<page-head title="加入房间" :leftIcon="false"  @click="navback()"></page-head>
+		<page-head title="加入房间" color="#f9c410" :leftIcon="false"  @click="navback()"></page-head>
 		<div class="fieldset">
-			<div class="title" @click="$toast.message('Hello World')" >请输入房间号码</div>
+			<div class="title" >请输入房间号码</div>
 			<div v-for="(item,index) in inputList" :key="index">
 				<input class="room-input" v-model="item.val" @input="nextFocus($event,index)" type="text" maxlength="1" />
 			</div>
 		</div>
-		<mu-button class="room-btn" color="warning" @click="getinto()">进入房间</mu-button>
+		<button class="room-btn"  @click="getinto()">进入房间</button>
 	</div>
 </template>
 
@@ -100,9 +100,11 @@
 	text-align: center;
 }
 .room-btn{
-  font-size: 0.4rem;
-  width: 100%;
-  padding: .5rem 0;
-  border-radius: 0.1rem;
+	color: #FFFFFF;
+	font-size: 0.4rem;
+	width: 100%;
+	padding: .2rem 0;
+	border-radius: 0.1rem;
+	background-color: #e64340;
 }
 </style>

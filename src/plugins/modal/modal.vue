@@ -108,7 +108,7 @@ export default {
 } 
 .modal-body { 
     position: relative; 
-    padding: .3rem .2rem; 
+    padding: .5rem .2rem;
     font-size: .45rem;
     text-align: center;
     color: #999;

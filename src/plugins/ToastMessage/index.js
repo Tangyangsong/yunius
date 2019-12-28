@@ -10,7 +10,7 @@ let toastMessage = (options) => {
     document.body.appendChild(instance.vm.$el)
   }
 
-  window.console.log(options)
+  // window.console.log(options)
   if (timer) {
     clearTimeout(timer)
     timer = null

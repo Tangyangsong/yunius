@@ -10,7 +10,7 @@
 					</div>
 					<div class="inf-botm">
 						<div class="bm-lf">{{userInfo.nickname}}</div>
-						<div class="bm-rg" @click="togglePopup('score')">
+						<div class="bm-rg" @click="scoreModel()">
 							<i class="iconfont iconweixin"></i><i class="inte">积分{{userInfo.money}}</i>
 						</div>
 					</div>
@@ -34,11 +34,11 @@
 		</div>
 
         <div class="footer">
-			<div class="foot-item" @click="togglePopup('score')">
+			<div class="foot-item" @click="scoreModel()">
 				<div class="iconfont iconjurassic_start"></div>
 				<div class="">上下分</div>
 			</div>
-			<div class="foot-item" @click="togglePopup('customer')">
+			<div class="foot-item" @click="goPage('/contact-us')">
 				<div class="iconfont iconIMliaotian-duihua"></div>
 				<div class="">联系客服</div>
 			</div>
@@ -51,13 +51,19 @@
 				<div class="">退出登录</div>
 			</div>
 		</div>
-
+		<!-- 退出提示 -->
+		<modal title="" :content='modalContent' @on-cancel="close" @on-confirm='confirm' v-show='showModal'></modal>
+		<!-- 上下分 -->
+		<up-down-score :showScore="showScore"  @scoreclick="hideScore"></up-down-score>
     </div>
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-
+import upDownScore from '@/components/up-down-score.vue'
 export default {
+	components: {
+		upDownScore
+	},
     computed: {
         ...mapState(['backImage','hasLogin','roomCode','userInfo','gameconfig'])
     },
@@ -65,7 +71,10 @@ export default {
         return {
             gettimer:null, //定时器名称
             socketOpen: false,//socket是否开启
-            socketMsgQueue:['1','2']
+            socketMsgQueue:['1','2'],
+			modalContent: "确定退出登录?",
+      		showModal: false,
+			showScore:false
         }
     },
     created(){
@@ -86,13 +95,24 @@ export default {
                     //     _this.gettimer = setInterval(_this.gettime, 6000);//开启定时器
                     // }
                 }else {
-                    //window.console.log(res)
-                    _this.logouts();
+					_this.logout();
+                	_this.$router.push({path:'/login'});
                 }
             }, function(err){
                 window.console.log('error'+err);
             });
         },
+		//退出按钮
+		outlogin(){
+			this.showModal = true;
+		},
+		confirm() {
+			this.showModal = false;
+			this.logouts();
+		},
+		close(){
+			this.showModal = false;
+		},
         //退出登录
         logouts(){
             let _this = this
@@ -107,6 +127,13 @@ export default {
                 window.console.log('error'+err);
             });
         },
+		//显示上下分
+		scoreModel(){
+			this.showScore = !this.showScore;
+		},
+		hideScore(){
+			this.showScore = false;
+		},
         goPage(url) {
             this.$router.push({path:url})
         },

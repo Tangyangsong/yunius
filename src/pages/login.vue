@@ -1,6 +1,6 @@
 <template>
 	<div class="loginPage" :style="[{backgroundImage: 'url('+backImage+')'},{backgroundSize:'100% 100%'}]">
-		<page-head title="qwe1" @click="navback()"></page-head>
+		<page-head title="qwe1" color="#f9c410" @click="navback()"></page-head>
 		<div class="logo-form">
 			<div class="logo-lable">
 				<div class="logo-name">账 号</div>
@@ -16,14 +16,15 @@
 				<img @click="getImageUrl()" class="code-image" :src="imageUrl" />
 			</div>
 			<div class="logo-tishi">
-				<mu-switch class="isswitch" v-model="automaticLogon"></mu-switch>
+				<!-- <mu-switch class="isswitch" v-model="automaticLogon"></mu-switch> -->
+				<tys-switch class="isswitch" v-model="automaticLogon"></tys-switch>
 				记住帐户和密码，下次快速登陆.
 			</div>
 			<div class="logo-button">
-				<mu-button class="butn" color="primary" @click="loginSubmit()"> 账号密码登录 </mu-button>
+				<button class="butn logbtn" @click="loginSubmit()"> 账号密码登录 </button>
 			</div>
 			<div class="logo-button">
-				<mu-button class="butn" color="warning" @click="goregister()">注册新的账号</mu-button>
+				<button class="butn regbtn" @click="goregister()">注册新的账号</button>
 			</div>
 		</div>
 	</div>
@@ -32,10 +33,12 @@
 <script>
 	import { mapState, mapMutations } from 'vuex';
 	import pageHead from '@/components/page-head.vue'
+	import tysSwitch from '@/plugins/tys-switch/tys-switch.vue'
 	import * as serve from "@/serve/service"
 	export default {
 		components: {
-			pageHead
+			pageHead,
+			tysSwitch
 		},
 		computed: {
 			...mapState(['backImage','roomCode'])
@@ -99,7 +102,6 @@
 				let _this = this;
 				_this.$ajax.post("/loginweb", params, function(res){
 					if(res.state){
-						_this.getUserinfo();//获取个人信息
 						let loginInfo = {
 							loginnametxt:_this.loginnametxt,
 							loginpwdtxt:_this.loginpwdtxt,
@@ -107,7 +109,7 @@
 						if(_this.automaticLogon){
 							//记住账号密码
 							window.localStorage.setItem('loginInfo', JSON.stringify(loginInfo));
-							_this.$router.push({path:'/index'})
+							_this.getUserinfo();//获取个人信息
 						}else{
 							window.localStorage.removeItem("loginInfo");
 						}
@@ -127,6 +129,7 @@
 					if(res.state){
 						let userInfo = res.ob;
 						_this.setUserInfo(userInfo);//改变登录状态
+						_this.$router.push({path:'/index'})
 					}
 				}, function(err){
 					window.console.log('error'+err);
@@ -168,7 +171,7 @@
   color: #ffffff;
   display: flex;
   align-items: center;
-  font-size: 0.3rem;
+  font-size: 0.35rem;
 }
 .logo-tishi .isswitch {
   margin-right: 10px;
@@ -181,6 +184,15 @@
   width: 100%;
   padding: .5rem 0;
   border-radius: 0.1rem;
+	color: #fff;
+	padding: .2rem .4rem;
+	border-radius: .1rem;
+}
+.logo-button .butn.logbtn{
+    background-color: #F9C410;
+}
+.logo-button .butn.regbtn{
+	background-color: #e64340;
 }
 .logo-name {
   position: absolute;

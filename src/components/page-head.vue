@@ -1,6 +1,6 @@
 <template name="page-head">
-    <div class="login-head">
-        <div class="head-title">
+    <div class="login-head" :style="'background-color:'+backColor">
+        <div class="head-title" :style="'color:'+color">
             <div class="head-left" @click="_onClick()" v-if="leftIcon">
                 <i class="iconfont iconfanhui"></i>
             </div>
@@ -23,8 +23,12 @@
             },
             color: {
 				type: String,
-				default: "rgba(255, 253, 17, 0.55)"
-			},
+				default: "#ffffff"
+            },
+            backColor:{
+                type: String,
+				default: "transparent"
+            }
 		},
 		data(){
 			return {
@@ -45,18 +49,19 @@
     top: 0;
     left: 0;
     right: 0;
+    z-index: 100;
 }
 .login-head .head-title {
   display: block;
   text-align: center;
   padding: 0 1rem;
-  font-size: .5rem;
+  font-size: .4rem;
+  font-weight: bold;
   height: 1rem;
   line-height: 1rem;
   color: #bebebe;
   box-sizing: border-box;
   position: relative;
-  color: #f9c410;
 }
 .login-head .head-title .head-left {
   position: absolute;

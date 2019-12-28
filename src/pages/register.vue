@@ -1,6 +1,6 @@
 <template>
 	<div class="loginPage" :style="[{backgroundImage: 'url('+backImage+')'},{backgroundSize:'100% 100%'}]">
-		<page-head title="qwe1" @click="navback()"></page-head>
+		<page-head title="qwe1" color="#f9c410" @click="navback()"></page-head>
         <div class="logo-form">
             <div class="logo-lable">
 				<div class="logo-name">游戏昵称</div>
@@ -24,10 +24,10 @@
 				<img @click="getImageUrl()" class="code-image" :src="imageUrl" />
 			</div>
 			<div class="logo-button">
-				<mu-button class="butn" color="primary" @click="registerSubmit()">立即注册</mu-button>
+				<button class="butn regist" @click="registerSubmit()">立即注册</button>
 			</div>
 			<div class="logo-button">
-				<mu-button class="butn" color="warning" @click="navback()">返回登录</mu-button>
+				<button class="butn back" @click="navback()">返回登录</button>
 			</div>
 		</div>
         <modal title="" :content='modalContent' :showCancle='false' @on-confirm='confirm' v-show='showModal'>
@@ -35,89 +35,95 @@
 	</div>
 </template>
 <script>
-	import { mapState } from 'vuex';
-	import pageHead from '@/components/page-head.vue'
-	import * as serve from "@/serve/service"
-	export default {
-		components: {
-			pageHead
-		},
-		computed: {
-			...mapState(['backImage','roomCode'])
-		},
-		data() {
-			return {
-				title: "qwe1",
-                imageUrl: "",
-                nicknametxt:'',
-				loginnametxt: "",
-                loginpwdtxt: "",
-                loginpwdtxts: "",
-				codetxt: "",
-                modalContent: '注册成功',
-                showModal: false,
-			}
-		},
-		created() {
-			this.getImageUrl();
-		},
-		methods: {
-			navback(){
-                this.$router.go(-1)
-            },
-            //确认注册
-            confirm(){
-                this.showModal = false;
-                this.$router.push({path:'/login'})
-            },
-			//获取验证码
-			getImageUrl(){
-				let date = new Date().getTime();
-				this.imageUrl = serve.HTTP_HOST + serve.AJAX_URL + '/getVerificationCode?t=' + date;
-			},
-			//注册
-			registerSubmit(){
-                if(this.nicknametxt == ''){
-					this.$toastMessage({message: '请输入游戏昵称'})
-					return;
-				}
-				if(this.loginnametxt == ''){
-					this.$toastMessage({message: '请输入账号'})
-					return;
-				}
-				if(this.loginpwdtxt == ''){
-					this.$toastMessage({message: '请输入密码'})
-					return;
-                }
-                if(this.loginpwdtxt !== this.loginpwdtxts){
-					this.$toastMessage({message: '两次密码不一致'})
-					return;
-				}
-				if(this.codetxt == ''){
-					this.$toastMessage({message: '请输入验证码'})
-					return;
-                }
-				let params = {
-                    nicknametxt:this.nicknametxt,
-					loginnametxt:this.loginnametxt,
-					loginpwdtxt:this.loginpwdtxt,
-					codetxt:this.codetxt,
-					roomcodetxt:this.roomCode//'vd041545' this.roomCode
-				}
-				let _this = this;
-				_this.$ajax.post("/register", params, function(res){
-					if(res.state){
-                        _this.showModal = true;//注册成功
-					}else {
-						_this.$toastMessage({message:res.message})
-						_this.getImageUrl()
-					}
-				}, function(err){
-					window.console.log('error'+err);
-				});
-			}
-		}
-	}
+import { mapState } from "vuex";
+import pageHead from "@/components/page-head.vue";
+import * as serve from "@/serve/service";
+export default {
+  components: {
+    pageHead
+  },
+  computed: {
+    ...mapState(["backImage", "roomCode"])
+  },
+  data() {
+    return {
+      title: "qwe1",
+      imageUrl: "",
+      nicknametxt: "",
+      loginnametxt: "",
+      loginpwdtxt: "",
+      loginpwdtxts: "",
+      codetxt: "",
+      modalContent: "注册成功",
+      showModal: false
+    };
+  },
+  created() {
+    this.getImageUrl();
+  },
+  methods: {
+    navback() {
+      this.$router.go(-1);
+    },
+    //确认注册
+    confirm() {
+      this.showModal = false;
+      this.$router.push({ path: "/login" });
+    },
+    //获取验证码
+    getImageUrl() {
+      let date = new Date().getTime();
+      this.imageUrl =
+        serve.HTTP_HOST + serve.AJAX_URL + "/getVerificationCode?t=" + date;
+    },
+    //注册
+    registerSubmit() {
+      if (this.nicknametxt == "") {
+        this.$toastMessage({ message: "请输入游戏昵称" });
+        return;
+      }
+      if (this.loginnametxt == "") {
+        this.$toastMessage({ message: "请输入账号" });
+        return;
+      }
+      if (this.loginpwdtxt == "") {
+        this.$toastMessage({ message: "请输入密码" });
+        return;
+      }
+      if (this.loginpwdtxt !== this.loginpwdtxts) {
+        this.$toastMessage({ message: "两次密码不一致" });
+        return;
+      }
+      if (this.codetxt == "") {
+        this.$toastMessage({ message: "请输入验证码" });
+        return;
+      }
+      let params = {
+        nicknametxt: this.nicknametxt,
+        loginnametxt: this.loginnametxt,
+        loginpwdtxt: this.loginpwdtxt,
+        codetxt: this.codetxt,
+        roomcodetxt: this.roomCode //'vd041545' this.roomCode
+      };
+      let _this = this;
+      _this.$ajax.post(
+        "/register",
+        params,
+        function(res) {
+          if (res.state) {
+            _this.showModal = true; //注册成功
+          } else {
+            _this.$toastMessage({ message: res.message });
+            _this.getImageUrl();
+          }
+        },
+        function(err) {
+          window.console.log("error" + err);
+        }
+      );
+    }
+  }
+};
 </script>
 <style scoped>
 .loginPage {
@@ -139,10 +145,10 @@
   padding-left: 2.2rem;
   padding-right: 0.2rem;
   background-color: rgba(125, 119, 119, 0.2);
-  margin: .2rem 0;
+  margin: 0.2rem 0;
 }
 .logo-tishi {
-  margin: .3rem 0 .2rem;
+  margin: 0.3rem 0 0.2rem;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -152,13 +158,20 @@
   margin-right: 10px;
 }
 .logo-button {
-  margin-bottom: .25rem;
+  margin-bottom: 0.25rem;
 }
 .logo-button .butn {
   font-size: 0.4rem;
   width: 100%;
-  padding: .5rem 0;
+  padding: 0.2rem 0;
   border-radius: 0.1rem;
+  color: #ffffff;
+}
+.logo-button .butn.regist{
+  background-color: #e64340;
+}
+.logo-button .butn.back{
+  background-color: #4caf50;
 }
 .logo-name {
   position: absolute;

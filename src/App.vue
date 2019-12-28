@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- mode="in-out" -->
-    <transition name="fade">
+    <!-- name="fade" mode="in-out" -->
+    <transition>
       <router-view />
     </transition>
   </div>
@@ -17,7 +17,7 @@ export default {
     }
   },
   created(){
-  
+    
   },
   methods: {
     
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style>
-@import '//at.alicdn.com/t/font_1565819_jggtr3crwm.css';
+@import '//at.alicdn.com/t/font_1565819_410jazlhd6v.css';
 @import "./assets/css/style.scss";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
