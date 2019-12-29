@@ -8,8 +8,11 @@ import ajax from './serve/ajax'
 import store from './store'
 import toastMessage from '@/plugins/ToastMessage' // message 提示消息插件
 import modal from './plugins/modal/index';// modal 提示框
+import VueScroller from 'vue-scroller'//滚动框
+
 Vue.use(modal)
 Vue.use(toastMessage)
+Vue.use(VueScroller)
 
 // import 'muse-ui/lib/styles/base.less';
 // import 'muse-ui/lib/styles/theme.less';

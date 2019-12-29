@@ -1,8 +1,29 @@
 <template>
     <div class="scorePage">
         <page-head title="上下分记录" backColor="rgb(62, 37, 58)" color="#ffffff" @click="navback()"></page-head>
-        <scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :dataList="scrollData">
-            <div class="score-taber">
+        <!-- <div class="score-tabtr">
+            <div class="taber-tr">
+                <div class="tab-td">类型</div>
+                <div class="tab-td">申请积分</div>
+                <div class="tab-td">时间</div>
+                <div class="tab-td">状态</div>
+            </div>
+        </div> -->
+        <div class="score-scroll">
+            <scroller :on-refresh="refresh" :on-infinite="infinite" ref="myscroller">
+                <!-- content goes here -->
+                <div class="taber-tr" v-for="(item,index) in listdata" :key="index">
+                    <div class="tab-td green">
+                        <span>{{item.drop}}</span>
+                    </div>
+                    <div class="tab-td">{{item.portfolio}}</div>
+                    <div class="tab-td">{{item.date}}</div>
+                    <div class="tab-td"><span>{{item.state}}</span></div>
+                </div>
+            </scroller>
+        </div>
+        <!-- <scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :dataList="scrollData">
+            <div class="score-taber"> -->
                 <!-- <div class="taber-tr">
                     <div class="tab-td">类型</div>
                     <div class="tab-td">申请积分</div>
@@ -17,26 +38,25 @@
                     <div class="tab-td">2019-12-14 18:30</div>
                     <div class="tab-td"><span>等待审核</span></div>
                 </div> -->
-                <div class="taber-tr" v-for="(item,index) in listdata" :key="index">
+                <!-- <div class="taber-tr" v-for="(item,index) in listdata" :key="index">
                     <div class="tab-td green">
                         <span>{{item.drop}}</span>
                     </div>
                     <div class="tab-td">{{item.portfolio}}</div>
                     <div class="tab-td">{{item.date}}</div>
                     <div class="tab-td"><span>{{item.state}}</span></div>
-                </div>
-            </div>
-        </scroll>
+                </div> -->
+            <!-- </div>
+        </scroll> -->
     </div>
 </template>
 <script>
 import { mapState } from 'vuex';
 import pageHead from '@/components/page-head.vue'
-import scroll from '@/components/scroll.vue'
+// import scroll from '@/components/scroll.vue'
 export default {
     components: {
-        pageHead,
-        scroll
+        pageHead
     },
     data() {
         return {
@@ -48,7 +68,11 @@ export default {
             listdata: [], // 
             scrollData: {
                 noFlag: false //暂无更多数据显示
-            }
+            },
+            noDate:false,//这是一个判断是否加载的开关
+            arr:[],
+            page:1,
+            pageSize:10
         }
     },
     mounted(){
@@ -57,6 +81,25 @@ export default {
     methods: {
         navback(){
             this.$router.go(-1);//返回上一层
+        },
+        refresh(){
+            this.page=1;//重置页数刷新每次页数都是第一页
+            this.noDate=false;//重置数据判断
+            setTimeout(function(){
+                this.getList();
+                this.$refs.myscroller.finishPullToRefresh();//刷新完毕关闭刷新的转圈圈
+            }.bind(this),1700)
+        },
+        infinite(done){
+            if(this.noDate){
+                this.$refs.myscroller.finishInfinite(true);//这个方法是不让它加载了，显示“没有更多数据”，要不然会一直转圈圈
+            }else{
+                setTimeout(() => {
+                    this.page++;//下拉一次页数+1
+                    this.getList();
+                    done();//进行下一次加载操作
+                }, 1500);
+            }
         },
         //下拉刷新
         onRefresh(done) {
@@ -74,7 +117,13 @@ export default {
                     state: '等待审核'
                 })
             }
-            this.listdata = response.slice(0, this.num);
+            //this.listdata = response.slice(0, this.num);
+            if(this.page == 1){
+                this.listdata= response;
+            }else{
+                this.listdata=this.listdata.concat(response)
+            }
+            
             console.log(this.listdata)
         },
         onInfinites(done) {
@@ -137,6 +186,15 @@ export default {
         padding-top: 1rem;
         background-color: #FFFFFF;
         overflow: hidden;
+        display: flex;
+        flex-direction:column;
+    }
+    .score-scroll{
+        flex: 1;
+        position: relative;
+    }
+    .score-tabtr{
+        height: .87rem;
     }
     .score-taber{
         border-top: 1px solid #e0e0e0;
@@ -146,6 +204,9 @@ export default {
         justify-content: flex-start;
         align-items: center;
         width: 100%;
+    }
+    .taber-tr:nth-child(2n){
+        background-color: #f4f5f6;
     }
     .taber-tr .tab-td{
         flex: 1;

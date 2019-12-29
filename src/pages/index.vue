@@ -27,7 +27,7 @@
         <div class="player-content" >
 			<div class="player-body">
 				<router-link class="play-item" v-for="(item,index) in gameconfig.gamelist" :key="index" :to="'/game-room?id='+item.id">
-					<img :src="require('../assets/images/pk10.png')" />
+					<img :src="require('../assets/images/game_'+item.gtid+'.png')" />
 					<div class="pl-title">{{item.name}}</div>
 				</router-link>
 			</div>
@@ -215,8 +215,11 @@ export default {
     }
     .header-notice .iconfont{
         font-size: .4rem;
-    }
-
+	}
+	.header-notice marquee{
+		width: 100%;
+		font-size: .3rem;
+	}
     .player-body {
 		padding: .2rem 0;
 		display: flex;
@@ -236,7 +239,7 @@ export default {
 	.player-body .play-item .pl-title {
 		font-weight: bold;
 		text-shadow: -1px 2px 10px #000;
-		font-size: .4rem;
+		font-size: .35rem;
 	}
 
 	.player-body .play-item img {

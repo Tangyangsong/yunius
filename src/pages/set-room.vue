@@ -4,7 +4,8 @@
 		<div class="fieldset">
 			<div class="title" >请输入房间号码</div>
 			<div v-for="(item,index) in inputList" :key="index">
-				<input class="room-input" v-model="item.val" @input="nextFocus($event,index)" type="text" maxlength="1" />
+				<!-- @input="nextFocus($event,index)" -->
+				<input class="room-input" v-model="item.val" @keyup="nextFocus($event,index)" type="text" maxlength="1"  @keydown="changeValue(index)" />
 			</div>
 		</div>
 		<button class="room-btn"  @click="getinto()">进入房间</button>
@@ -25,8 +26,24 @@
 		},
 		methods: {
 			nextFocus(el,index){
-				window.console.log(el)
-				window.console.log(index)
+				// window.console.log(el)
+				// window.console.log(index)
+				var dom = document.getElementsByClassName("room-input"),
+                    currInput = dom[index],
+                    nextInput = dom[index + 1],
+                    lastInput = dom[index - 1];
+                /*这里的keyCode 根据不同的平台或许不同,安卓就是不是8*/
+                if (el.keyCode != 8) {
+                    if (index < (this.inputList.length - 1)) {
+                        nextInput.focus();
+                    } else {
+                        currInput.blur();
+                    }
+                }else{
+                    if (index !=0) {
+                        lastInput.focus();
+                    }
+                }
 			},
 			getinto() {
 				let rest = '';
@@ -39,7 +56,7 @@
 						rest += item.val;
 					}
 				})
-				window.console.log(rest.length)
+				// window.console.log(rest.length)
 				if(rest.length===8){
 					this.getroom(rest);
 				}
@@ -55,6 +72,10 @@
 					})
 					this.$router.push({path:'/login'})
 				}
+			},
+			changeValue(index){
+				// console.log(index);
+				this.inputList[index].val = "";
 			},
 			
 			...mapMutations(['getroomCode'])
@@ -98,6 +119,7 @@
 	height: .8rem;
 	line-height: .8rem;
 	text-align: center;
+	font-size: .35rem;
 }
 .room-btn{
 	color: #FFFFFF;
