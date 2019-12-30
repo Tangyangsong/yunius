@@ -29,3 +29,163 @@ button:active{
 .hiddenInput{
     display: none;
 }
+._v-container>._v-content>.pull-to-refresh-layer{
+    width: 100%;
+    height: 1rem !important;
+    margin-top: -1rem !important;
+    text-align: center;
+    font-size: .4rem !important;
+    color: #aaa;
+}
+._v-container>._v-content>.pull-to-refresh-layer .spinner-holder .arrow{
+    width: .4rem !important;
+    height: .4rem !important;
+}
+._v-container>._v-content>.pull-to-refresh-layer .spinner-holder .text{
+    font-size: .35rem !important;
+}
+/* PK10 */
+.draw_code_10 .draw_code_no{
+    width: .5rem;
+    height: .5rem;
+    line-height: .5rem;
+    text-align: center;
+    background-color: #000000;
+    font-size: .4rem;
+    color: #FFFFFF;
+    text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+    -webkit-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+    -moz-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+    filter: Glow(color=#000, strength=1);
+}
+.draw_code_10 .draw_code_no.dn-1{
+    background-color: #FFFF00;
+}
+.draw_code_10 .draw_code_no.dn-2{
+    background-color: #0089FF;
+}
+.draw_code_10 .draw_code_no.dn-3{
+    background-color: #4D4D4D;
+}
+.draw_code_10 .draw_code_no.dn-4{
+    background-color: #FF7300;
+}
+.draw_code_10 .draw_code_no.dn-5{
+    background-color: #81FFFF;
+}
+.draw_code_10 .draw_code_no.dn-6{
+    background-color: #5200FF;
+}
+.draw_code_10 .draw_code_no.dn-7{
+    background-color: #E3E3E3;
+}
+.draw_code_10 .draw_code_no.dn-8{
+    background-color: #FF0000;
+}
+.draw_code_10 .draw_code_no.dn-9{
+    background-color: #760000;
+}
+.draw_code_10 .draw_code_no.dn-10{
+    background-color: #28C200;
+}
+// 聊天
+.game-hall{
+    color: #FFFFFF;
+}
+
+.game-hall .row{
+    padding: .1rem 0;
+}
+.game-hall .row .my .left,.other .right{
+    width: 100%;
+    display: flex;
+}
+.game-hall .row .bubble{
+    max-width: 70%;
+    min-height: 1rem;
+    border-radius: .1rem;
+    padding: .1rem .2rem;
+    display: flex;
+    align-items: center;
+    font-size: .35rem;
+    word-break: break-word;
+}
+.game-hall .row .bubble.img{
+    background-color: transparent;
+    padding:0;
+    overflow: hidden;
+}
+.game-hall .row .bubble.img img{
+    max-width: 5rem;
+    max-height: 5rem;
+}
+
+.game-hall .row .my .right,.game-hall .row .other .left{
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+}
+.game-hall .row .my .right img,.game-hall .row .other .left img{
+    width: 1rem;
+    height: 1rem;
+    border-radius: .1rem;
+}
+.game-hall .row .my{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    
+}
+.game-hall .row .my .left{
+    min-height: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+.game-hall .row .my .left .username{
+    width: 100%;
+    height: .5rem;
+    font-size: .35rem;
+    color: #999;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.game-hall .row .my .left .username .name{
+    margin-right: .2rem;
+}
+.game-hall .row .my .left .bubble{
+    background-color: #a3e659;
+    color: #333333;
+}
+.game-hall .row .my .right{
+    margin-left: .15rem;
+    padding-top: .15rem;
+}
+.game-hall .row .other{
+    width: 100%;
+    display: flex;
+}
+.game-hall .row .other .left{
+    margin-right: .15rem;
+    padding-top: .15rem;
+}
+.game-hall .row .other .right{
+    flex-wrap: wrap;
+}
+.game-hall .row .other .right .username{
+    width: 100%;
+    height: .5rem;
+    font-size: .35rem;
+    color: #999;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.game-hall .row .other .right .username .name{
+    margin-right: .2rem;
+}
+.game-hall .row .other .right .bubble{
+    background-color: #fff;
+    color: #333;
+}

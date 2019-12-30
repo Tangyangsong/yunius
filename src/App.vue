@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style>
-@import '//at.alicdn.com/t/font_1565819_410jazlhd6v.css';
+@import '//at.alicdn.com/t/font_1565819_m1qyum5nkyo.css';
 @import "./assets/css/style.scss";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

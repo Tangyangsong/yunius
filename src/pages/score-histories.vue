@@ -51,7 +51,7 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 import pageHead from '@/components/page-head.vue'
 // import scroll from '@/components/scroll.vue'
 export default {
@@ -70,12 +70,9 @@ export default {
                 noFlag: false //暂无更多数据显示
             },
             noDate:false,//这是一个判断是否加载的开关
-            arr:[],
-            page:1,
-            pageSize:10
         }
     },
-    mounted(){
+    created(){
         this.getList();
     },
     methods: {
@@ -101,12 +98,6 @@ export default {
                 }, 1500);
             }
         },
-        //下拉刷新
-        onRefresh(done) {
-            console.log(done);
-            this.getList();
-            done(); // call done
-        },
         getList() {
             var response = []
             for(let i = 0; i < 30; i++) {
@@ -124,58 +115,7 @@ export default {
                 this.listdata=this.listdata.concat(response)
             }
             
-            console.log(this.listdata)
-        },
-        onInfinites(done) {
-            
-            let vm = this;
-            done() // call done
-            
-        },
-
-        onInfinite(done) {
-            console.log(this.listdata.length);
-            let vm = this;
-            vm.counter++;
-            let end = vm.pageEnd = vm.num * vm.counter;
-            // let i = this.pageStart = this.pageEnd - this.num;
-            let more = vm.$el.querySelector('.load-more')
-
-            for(let i = 0; i < 30; i++) {
-                vm.listdata.push({
-                    date: "2017-06-1"+i,
-                    portfolio: "1.5195"+i,
-                    drop: i+"+.00 %" ,
-                    state: '审核通过'
-                })
-            }
-            more.style.display = 'none'; //隐藏加载条
-
-            // console.log(end);
-            // console.log(i);
-            // console.log(more);
-            // console.log(i > 30)
-            // for(i; i < end; i++) {
-            //     if(i >= 30) {
-            //         console.log(1111111111);
-            //         more.style.display = 'none'; //隐藏加载条
-            //         //走完数据调用方法
-            //         this.scrollData.noFlag = true;
-            //         break;
-            //     } else {
-            //         console.log(222222222);
-            //         this.listdata.push({
-            //             date: "2017-06-1"+i,
-            //             portfolio: "1.5195"+i,
-            //             drop: i+"+.00 %" ,
-            //             state: '审核通过'
-            //         })
-            //         more.style.display = 'none'; //隐藏加载条
-            //     }
-            // }
-
-            //done();
-            console.log(done);
+            window.console.log(this.listdata)
         }
     }
 }
