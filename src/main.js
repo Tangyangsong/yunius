@@ -10,10 +10,11 @@ import toastMessage from '@/plugins/ToastMessage' // message 提示消息插件
 import modal from './plugins/modal/index';// modal 提示框
 import VueScroller from 'vue-scroller'//滚动框
 
+import websocket from './store/websocketStore'
+
 Vue.use(modal)
 Vue.use(toastMessage)
 Vue.use(VueScroller)
-
 // import 'muse-ui/lib/styles/base.less';
 // import 'muse-ui/lib/styles/theme.less';
 // import theme from 'muse-ui/lib/theme';
@@ -29,8 +30,14 @@ Vue.use(VueScroller)
 // Vue.use(Button);
 // Vue.use(Select);
 // Vue.use(Switch);
+
+Vue.prototype.$websocket = websocket;
 Vue.prototype.$ajax = ajax;
 Vue.config.productionTip = false
+
+// router.deactivate(()=>{
+//   window.console.log(1111111111)
+// })
 
 router.beforeEach((to, from, next) =>{
   let room = JSON.parse(window.localStorage.getItem('room'));

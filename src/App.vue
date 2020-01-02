@@ -8,7 +8,7 @@
 </template>
 
 <script>
-
+import * as serve from "@/serve/service"
 export default {
   name: 'app',
   data(){
@@ -17,11 +17,25 @@ export default {
     }
   },
   created(){
-    
+    this.$websocket.dispatch('WEBSOCKET_INIT',"ws:" + serve.WEBSOCK_URL);
   },
   methods: {
     
-  }
+  },
+  mounted: function () {
+		document.addEventListener('visibilitychange', function() {
+      // 页面变为不可见时触发 
+      if (document.visibilityState == 'hidden') {
+        // document.title = '离开';
+        window.console.log('离开')
+      } 
+      // 页面变为可见时触发
+      if (document.visibilityState == 'visible') {
+        // document.title = '回来';
+        window.console.log('回来')
+      } 
+		});
+	}
 }
 </script>
 

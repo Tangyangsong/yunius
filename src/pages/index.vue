@@ -4,7 +4,7 @@
 			<div class="header-info">
 				<img class="info-img" src="https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D500/sign=55e775fc36dbb6fd215be5263924aba6/4b90f603738da9773d2f472cbf51f8198618e3b1.jpg" />
 				<div class="info-con">
-					<div class="inf-title">
+					<div class="inf-title" @click="fasong()">
 						<span class="tl">{{userInfo.id}}</span>
 						<span class="tx">(房间 {{userInfo.roomnumber}})</span>
 					</div>
@@ -19,8 +19,8 @@
 			<div class="header-notice">
 				<i class="iconfont iconzhaobiaogonggao"></i>
                 <marquee id="affiche" align="left" behavior="scroll" direction="left" loop="-1" scrollamount="10" scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
-这是一个完整的例子{{gameconfig.gonggao}}
-</marquee>
+					这是一个完整的例子{{gameconfig.gonggao}}
+				</marquee>
 			</div>
 		</div>
         <!-- 中间内容 -->
@@ -32,7 +32,7 @@
 				</router-link>
 			</div>
 		</div>
-
+		
         <div class="footer">
 			<div class="foot-item" @click="scoreModel()">
 				<div class="iconfont iconjurassic_start"></div>
@@ -65,7 +65,10 @@ export default {
 		upDownScore
 	},
     computed: {
-        ...mapState(['backImage','hasLogin','roomCode','userInfo','gameconfig'])
+		...mapState(['backImage','hasLogin','roomCode','userInfo','gameconfig']),
+		alertCont() {
+            return this.$websocket.getters.onEvent('ConnectByJson.C');
+        }
     },
     data() {
         return {
@@ -73,14 +76,30 @@ export default {
             socketOpen: false,//socket是否开启
             socketMsgQueue:['1','2'],
 			modalContent: "确定退出登录?",
-      		showModal: false,
+			showModal: false,
 			showScore:false
         }
-    },
+	},
+	watch: {
+		alertCont: function (a, b) {
+			if (a !== b && a) {
+				window.console.log("触发事件：");
+				window.console.log("a:"+JSON.stringify(a));
+				window.console.log("b:"+JSON.stringify(b));
+			}
+		}
+	},
     created(){
-        this.getconfig();
+		this.getconfig();
     },
     methods: {
+		fasong(){
+			var heart = {
+				type: 8,
+				data: 'dsfhdsfbdhfg'
+			};
+			this.$websocket.dispatch('WEBSOCKET_SEND',heart);//发生socket消息
+		},
         //获取config
         getconfig(){
             let _this = this;
@@ -96,7 +115,7 @@ export default {
                     // }
                 }else {
 					_this.logout();
-                	_this.$router.push({path:'/login'});
+					_this.$router.push({path:'/login'});
                 }
             }, function(err){
                 window.console.log('error'+err);
@@ -138,7 +157,7 @@ export default {
             this.$router.push({path:url})
         },
         ...mapMutations(['logout','getroomCode'])
-    }
+	}
 }
 </script>
 <style scoped>
